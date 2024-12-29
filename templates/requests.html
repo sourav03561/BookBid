@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f4f4f4;
+            margin: 5px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .request-info {
+            margin-bottom: 10px;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .cancel-btn {
+            background-color: #d9534f;
+        }
+        .cancel-btn:hover {
+            background-color: #c9302c;
+        }
+        .no-requests {
+            text-align: center;
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Exchange Requests</h2>
+
+        <!-- Incoming Requests -->
+        <div class="section">
+            <h3>Incoming Requests</h3>
+            {% if incoming_requests %}
+                <ul>
+                    {% for req in incoming_requests %}
+                        <li>
+                            <div class="request-info">
+                                <strong>From:</strong> {{ req['from_user'] }}<br>
+                                <strong>Book Requested:</strong> {{ req['book_requested'] }}<br>
+                                <strong>Book Offered:</strong> {{ req['book_offered'] }}<br>
+                                <strong>Message:</strong> {{ req.get('message', 'No message provided') }}
+                            </div>
+
+                            <div class="actions">
+                                {% if req['status'] == 'pending' %}
+                                <form method="POST" action="/accept_request/{{ req['id'] }}">
+                                    <button type="submit">Accept</button>
+                                </form>
+                                <form method="POST" action="/reject_request/{{ req['id'] }}">
+                                    <button type="submit" class="cancel-btn">Reject</button>
+                                </form>
+                                {% elif req['status'] == 'accepted' %}
+                                <div class="accepted-details">
+                                    <p class="status-info">
+                                        Request accepted by: <strong>{{ req['from_user'] }}</strong><br>
+                                        {% if req['from_user_details'] %}
+                                        <p>Name: {{ req['from_user_details'].get('name', 'Unknown') }}</p>
+                                        <p>Phone: {{ req['from_user_details'].get('phone', 'No phone available') }}</p>
+                                        <p>Address: {{ req['from_user_details'].get('address', 'No address available') }}</p>
+                                    {% endif %}
+                                    </p>
+                                </div>
+                                {% else %}
+                                <p class="status-info">This request has been {{ req['status'] }}.</p>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-requests">You have no incoming requests.</p>
+            {% endif %}
+        </div>
+
+        <!-- Outgoing Requests -->
+        <div class="section">
+            <h3>Outgoing Requests</h3>
+            {% if outgoing_requests %}
+                <ul>
+                    {% for req in outgoing_requests %}
+                        <li>
+                            <div class="request-info">
+                                <strong>To:</strong> {{ req['to_user'] }}<br>
+                                <strong>Book Requested:</strong> {{ req['book_requested'] }}<br>
+                                <strong>Book Offered:</strong> {{ req['book_offered'] }}<br>
+                                <strong>Status:</strong> {{ req['status'] }}
+                            </div>
+                            <div class="actions">
+                                <form method="POST" action="/cancel_request/{{ req['id'] }}">
+                                    <button type="submit" class="cancel-btn">Cancel Request</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-requests">You have no outgoing requests.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

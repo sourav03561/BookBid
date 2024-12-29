@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, ul, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f4f4f4;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .remove-btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 5px;
+            margin-left: 10px;
+        }
+        .remove-btn:hover {
+            background-color: #c9302c;
+        }
+        .flash-message {
+            text-align: center;
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Your Book Collection</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Add a New Book -->
+        <form method="POST">
+            <label for="selected_book">Add a Book:</label>
+            <select id="selected_book" name="selected_book" required>
+                {% for book in csv_books %}
+                    <option value="{{ loop.index0 }}">{{ book }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" name="add_book">Add Book</button>
+        </form>
+
+        <!-- Current Book List -->
+        <h3>Your Selected Books:</h3>
+        {% if books %}
+            <ul>
+                {% for book in books %}
+                    <li>
+                        {{ book }}
+                        <form method="POST" style="display: inline;">
+                            <input type="hidden" name="book_index" value="{{ loop.index0 }}">
+                            <button type="submit" name="remove_book" class="remove-btn">Remove</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You have not selected any books yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

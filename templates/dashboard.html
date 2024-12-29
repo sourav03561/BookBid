@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .user-info, .books-section {
+            margin-bottom: 20px;
+        }
+        .user-info p, .books-section p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f4f4f4;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 3px;
+        }
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #d9534f;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        .logout-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to Your Dashboard</h2>
+        <!-- User Information Section -->
+        <div class="user-info">
+            <p><strong>Name:</strong> {{ user['name'] }}</p>
+            <p><strong>Email:</strong> {{ user['email'] }}</p>
+            <p><strong>City:</strong> {{ user['city'] }}</p>
+            <p><strong>Address:</strong> {{ user['address'] }}</p>
+            <p><strong>Phone:</strong> {{ user['phone'] }}</p>
+        </div>
+
+        <!-- Selected Books Section -->
+        <div class="books-section">
+            <h3>Your Selected Books:</h3>
+            {% if user['books'] %}
+                <ul>
+                    {% for book in user['books'] %}
+                        <li>{{ book }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No books selected.</p>
+            {% endif %}
+        </div>
+
+        <!-- Logout Button -->
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+</body>
+</html>

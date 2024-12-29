@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Exchange</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f4f4f4;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .book-details {
+            margin-bottom: 10px;
+        }
+        .search-form {
+            margin-bottom: 20px;
+        }
+        .search-form input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+        .search-form button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .search-form button:hover {
+            background-color: #0056b3;
+        }
+        .user-details {
+            font-size: 14px;
+            color: #666;
+        }
+        .similarity-score {
+            font-size: 12px;
+            color: green;
+        }
+        select {
+            margin-right: 10px;
+            padding: 5px;
+        }
+        button.exchange-button {
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button.exchange-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Book Exchange</h2>
+        
+        <!-- Search Section -->
+        <div class="section">
+            <form class="search-form" method="POST">
+                <input type="text" name="query" placeholder="Search for books..." required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- Current User's Books -->
+        <div class="section">
+            <h3>Your Books:</h3>
+            {% if current_user_books %}
+                <ul>
+                    {% for book in current_user_books %}
+                        <li>{{ book }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no books listed for exchange.</p>
+            {% endif %}
+        </div>
+
+        <!-- Available Books from Other Users -->
+        <div class="section">
+            <h3>Books from Other Users:</h3>
+            {% if books_with_users %}
+                <ul>
+                    {% for book in books_with_users %}
+                        <li>
+                            <div class="book-details">
+                                <strong>{{ book['book_title'] }}</strong> 
+                                <span class="similarity-score">(Similarity: {{ "%.2f" % book['similarity'] }})</span>
+                                <div class="user-details">
+                                    Owner: {{ book['user_name'] }} ({{ book['user_city'] }})
+                                </div>
+                            </div>
+                            <!-- Exchange Request Form -->
+                            <form method="POST" action="{{ url_for('send_request') }}">
+                                <select name="offer_book" required>
+                                    <option value="" disabled selected>Select your book</option>
+                                    {% for user_book in current_user_books %}
+                                        <option value="{{ user_book }}">{{ user_book }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" name="requested_book" value="{{ book['book_title'] }}">
+                                <input type="hidden" name="owner_email" value="{{ book['user_email'] }}">
+                                <button type="submit" class="exchange-button">Request Exchange</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No books available for exchange currently.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .user-details {
+            margin-bottom: 20px;
+        }
+        .user-details p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .books-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .books-list li {
+            background: #f4f4f4;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Exchange Details</h2>
+        
+        <!-- User Information -->
+        <div class="user-details">
+            <p><strong>Name:</strong> {{ user['name'] }}</p>
+            <p><strong>Email:</strong> {{ user['email'] }}</p>
+            <p><strong>City:</strong> {{ user['city'] }}</p>
+            <p><strong>Phone:</strong> {{ user['phone'] }}</p>
+        </div>
+
+        <!-- Books Owned by the User -->
+        <h3>Books Available for Exchange</h3>
+        {% if user['books'] %}
+            <ul class="books-list">
+                {% for book in user['books'] %}
+                    <li>{{ book }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>This user has no books listed for exchange.</p>
+        {% endif %}
+
+        <!-- Back to Requests -->
+        <a href="{{ url_for('requests') }}" class="back-btn">Back to Requests</a>
+    </div>
+</body>
+</html>
