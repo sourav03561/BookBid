@@ -20,72 +20,98 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        h2 {
+        h2, h3 {
             text-align: center;
-            margin-bottom: 20px;
+            color: #333;
         }
         .section {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         ul {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
+            margin: 0;
         }
         li {
-            background: #f4f4f4;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 3px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #f4f4f4;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        .book-details {
-            margin-bottom: 10px;
+        li img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        .book-info, .book-details {
+            flex: 1;
+            margin-left: 15px;
+        }
+        .book-info span, .book-details strong {
+            display: block;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .user-details {
+            font-size: 12px;
+            color: #555;
+            margin-top: 5px;
+        }
+        .similarity-score {
+            font-size: 12px;
+            color: #28a745;
         }
         .search-form {
+            text-align: center;
             margin-bottom: 20px;
         }
         .search-form input[type="text"] {
-            width: 80%;
+            width: 70%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 3px;
-            margin-right: 10px;
+            font-size: 14px;
         }
         .search-form button {
-            padding: 10px;
+            padding: 10px 20px;
             background-color: #007BFF;
-            color: white;
+            color: #fff;
             border: none;
             border-radius: 3px;
+            font-size: 14px;
             cursor: pointer;
         }
         .search-form button:hover {
             background-color: #0056b3;
         }
-        .user-details {
-            font-size: 14px;
-            color: #666;
-        }
-        .similarity-score {
-            font-size: 12px;
-            color: green;
-        }
         select {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
             margin-right: 10px;
-            padding: 5px;
         }
         button.exchange-button {
-            padding: 5px 10px;
+            padding: 8px 12px;
             background-color: #28a745;
             color: white;
             border: none;
             border-radius: 3px;
+            font-size: 14px;
             cursor: pointer;
         }
         button.exchange-button:hover {
             background-color: #218838;
+        }
+        p {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -107,7 +133,14 @@
             {% if current_user_books %}
                 <ul>
                     {% for book in current_user_books %}
-                        <li>{{ book }}</li>
+                        <li>
+                            <img src="{{ book['img'] }}" alt="Book Image">
+                            <div class="book-info">
+                                <span><strong>Title:</strong> {{ book['title'] }}</span>
+                                <span><strong>Author:</strong> {{ book['author'] }}</span>
+                                <span><strong>Genre:</strong> {{ book['genre'] }}</span>
+                            </div>
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}
@@ -122,8 +155,9 @@
                 <ul>
                     {% for book in books_with_users %}
                         <li>
+                            <img src="{{ book.get('image_url') }}" alt="{{ book['book_title'] }}">
                             <div class="book-details">
-                                <strong>{{ book['book_title'] }}</strong> 
+                                <strong>{{ book['book_title'] }}</strong>
                                 <span class="similarity-score">(Similarity: {{ "%.2f" % book['similarity'] }})</span>
                                 <div class="user-details">
                                     Owner: {{ book['user_name'] }} ({{ book['user_city'] }})
@@ -134,7 +168,7 @@
                                 <select name="offer_book" required>
                                     <option value="" disabled selected>Select your book</option>
                                     {% for user_book in current_user_books %}
-                                        <option value="{{ user_book }}">{{ user_book }}</option>
+                                        <option value="{{ user_book }}">{{ user_book['title'] }}</option>
                                     {% endfor %}
                                 </select>
                                 <input type="hidden" name="requested_book" value="{{ book['book_title'] }}">

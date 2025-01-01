@@ -97,7 +97,7 @@
             <label for="selected_book">Add a Book:</label>
             <select id="selected_book" name="selected_book" required>
                 {% for book in csv_books %}
-                    <option value="{{ loop.index0 }}">{{ book }}</option>
+                    <option value="{{ loop.index0 }}">{{ book['title'] }}</option>
                 {% endfor %}
             </select>
             <button type="submit" name="add_book">Add Book</button>
@@ -109,7 +109,8 @@
             <ul>
                 {% for book in books %}
                     <li>
-                        {{ book }}
+                        <img src="{{ book['img'] }}" alt="Book Image">
+                        {{ book['title'] }}
                         <form method="POST" style="display: inline;">
                             <input type="hidden" name="book_index" value="{{ loop.index0 }}">
                             <button type="submit" name="remove_book" class="remove-btn">Remove</button>

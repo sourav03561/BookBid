@@ -82,11 +82,19 @@
                         <li>
                             <div class="request-info">
                                 <strong>From:</strong> {{ req['from_user'] }}<br>
-                                <strong>Book Requested:</strong> {{ req['book_requested'] }}<br>
-                                <strong>Book Offered:</strong> {{ req['book_offered'] }}<br>
+                                <strong>Book Requested:</strong> 
+                                <div>
+                                    <img src="{{ req['requested_book_details']['image'] }}" alt="Book Image" width="50" height="75">
+                                    <span>{{ req['requested_book_details']['title'] }} by {{ req['requested_book_details']['author'] }}</span>
+                                </div>
+                                <strong>Book Offered:</strong>
+                                <div>
+                                    <img src="{{ req['offered_book_details']['image'] }}" alt="Book Image" width="50" height="75">
+                                    <span>{{ req['offered_book_details']['title'] }} by {{ req['offered_book_details']['author'] }}</span>
+                                </div>
                                 <strong>Message:</strong> {{ req.get('message', 'No message provided') }}
                             </div>
-
+        
                             <div class="actions">
                                 {% if req['status'] == 'pending' %}
                                 <form method="POST" action="/accept_request/{{ req['id'] }}">
@@ -127,8 +135,16 @@
                         <li>
                             <div class="request-info">
                                 <strong>To:</strong> {{ req['to_user'] }}<br>
-                                <strong>Book Requested:</strong> {{ req['book_requested'] }}<br>
-                                <strong>Book Offered:</strong> {{ req['book_offered'] }}<br>
+                                <strong>Book Requested:</strong>
+                                <div>
+                                    <img src="{{ req['requested_book_details']['image'] }}" alt="Book Image" width="50" height="75">
+                                    <span>{{ req['requested_book_details']['title'] }} by {{ req['requested_book_details']['author'] }}</span>
+                                </div>
+                                <strong>Book Offered:</strong>
+                                <div>
+                                    <img src="{{ req['offered_book_details']['image'] }}" alt="Book Image" width="50" height="75">
+                                    <span>{{ req['offered_book_details']['title'] }} by {{ req['offered_book_details']['author'] }}</span>
+                                </div>
                                 <strong>Status:</strong> {{ req['status'] }}
                             </div>
                             <div class="actions">

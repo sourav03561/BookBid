@@ -36,10 +36,24 @@
             padding: 0;
         }
         li {
+            display: flex;
+            align-items: center;
             background: #f4f4f4;
-            margin: 5px 0;
+            margin: 10px 0;
             padding: 10px;
             border-radius: 3px;
+        }
+        li img {
+            margin-right: 15px;
+            border-radius: 3px;
+        }
+        li .book-info {
+            display: flex;
+            flex-direction: column;
+        }
+        li .book-info span {
+            font-size: 14px;
+            margin-bottom: 5px;
         }
         .logout-btn {
             display: block;
@@ -75,7 +89,14 @@
             {% if user['books'] %}
                 <ul>
                     {% for book in user['books'] %}
-                        <li>{{ book }}</li>
+                        <li>
+                            <img src="{{ book['img'] }}" alt="Book Image" width="50" height="75">
+                            <div class="book-info">
+                                <span><strong>Title:</strong> {{ book['title'] }}</span>
+                                <span><strong>Author:</strong> {{ book['author'] }}</span>
+                                <span><strong>Genre:</strong> {{ book['genre'] }}</span>
+                            </div>
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}

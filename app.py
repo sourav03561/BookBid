@@ -21,7 +21,7 @@ app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Replace in produc
 
 # Load books from CSV into memory
 df_books = pd.read_csv('random_books_df.csv')
-books_list = df_books[['title', 'author', 'genre']].to_dict(orient='records')
+books_list = df_books[['title', 'author', 'genre','img']].to_dict(orient='records')
 
 # Load TF-IDF vectorizer and matrix
 
@@ -110,7 +110,7 @@ def edit_books():
             selected_book = books_list[selected_book_index]
             print(selected_book)
             if selected_book not in selected_books:
-                selected_books.append(selected_book['title'])
+                selected_books.append(selected_book)
             print(selected_books)
         elif 'remove_book' in request.form:
             book_index = int(request.form['book_index'])
@@ -120,7 +120,7 @@ def edit_books():
         users_ref.document(user_doc.id).update({'books': selected_books})
         flash("Books updated successfully.", "success")
         return redirect(url_for('edit_books'))
-
+    print(selected_books)
     return render_template('edit_books.html', books=selected_books, csv_books=books_list[0:300])
 
 def get_similarities_with_target(target_book, book_list):
@@ -161,14 +161,17 @@ def exchange():
         user = doc.to_dict()
         if user['email'] != current_user_email and 'books' in user:
             for book in user['books']:
+                book_data = next((b for b in books_list if b['title'] == book), {})
                 books_with_users.append({
                     "user_name": user['name'],
                     "user_email": user['email'],
                     "user_city": user['city'],
                     "user_phone": user['phone'],
                     "book_title": book,
-                })
+                    "image_url": book_data.get('img', 'default_image_url.jpg')  # Provide a default image
 
+                })
+    print(books_with_users)
     # Compute similarity scores and sort books
     sorted_books = []
     exchange_books = []
@@ -295,28 +298,23 @@ def requests():
         {**req.to_dict(), 'id': req.id}
         for req in db.collection("exchange_requests").where("from_user", "==", current_user_email).stream()
     ]
-    
-    users_ref = db.collection('users')
 
-    # Create a list of unique emails for incoming requests
-    incoming_emails = {req['from_user'] for req in incoming_requests}
+    # Helper function to find book details by title
+    def get_book_details(title):
+        for book in books_list:
+            if book['title'] == title:
+                return {
+                    "title": book['title'],
+                    "author": book['author'],
+                    "image": book['img']
+                }
+        return {"title": title, "author": "Unknown Author", "image": "default_image_url"}
 
-    # Fetch user details in a single batch
-    users = {user.to_dict()['email']: user.to_dict() for user in users_ref.where('email', 'in', list(incoming_emails)).stream()}
-
-    # Add only necessary user details to incoming requests
-    for incoming_request in incoming_requests:
-        email = incoming_request['from_user']
-        user_details = users.get(email)
-        if user_details:
-            incoming_request['from_user_details'] = {
-                'name': user_details.get('name'),
-                'phone': user_details.get('phone'),
-                'address': user_details.get('address')
-            }
-        else:
-            incoming_request['from_user_details'] = {}  # Handle missing user details gracefully
-
+    # Enhance requests with book details
+    for request in incoming_requests + outgoing_requests:
+        request['requested_book_details'] = get_book_details(request.get('requested_book', 'Unknown Title'))
+        request['offered_book_details'] = get_book_details(request.get('offered_book', 'Unknown Title'))
+    print(incoming_requests)
     return render_template(
         'requests.html',
         incoming_requests=incoming_requests,

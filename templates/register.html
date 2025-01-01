@@ -86,7 +86,7 @@
             <label for="books">Select Books:</label>
             <select id="books" name="selected_books[]" multiple>
                 {% for book in books %}
-                    <option value="{{ book }}">{{ book }}</option>
+                    <option value="{{ book }}">{{ book['title'] }}</option>
                 {% endfor %}
             </select>
             <small class="form-text">Hold down Ctrl (Windows) or Command (Mac) to select multiple books.</small>
