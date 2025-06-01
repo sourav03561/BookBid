@@ -30,6 +30,36 @@
    ```bash
    git clone https://github.com/sourav03561/BookBid.git
    cd BookBid
+2. **Create a Virtual Environment**:
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+3. **Install Dependencies**:
+   pip install -r requirements.txt
+4. **Run the Application**:
+   python app.py
+   
+## 🧪 Usage
+**Homepage** – View featured books and recent exchange requests.
+
+**Browse Books** – Search and filter books based on your preferences.
+
+**Add a Book** – List a book you wish to exchange.
+
+**Manage Exchanges** – Track your exchange requests and communicate with other users.
+
+## Project Structure
+BookBid/
+├── templates/           # HTML templates
+├── static/              # Static files (CSS, JS, images)
+├── app.py               # Main application file
+├── books.owl            # Ontology file for book data
+├── random_books_df.csv  # Sample dataset of books
+├── tfidf_matrix.pkl     # Precomputed TF-IDF matrix
+├── tfidf_vectorizer.pkl # TF-IDF vectorizer model
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
+
+
 ![Image](https://github.com/user-attachments/assets/244cebe4-57eb-4fe7-9e4e-7c6f1b86ffcc)
 ![Image](https://github.com/user-attachments/assets/b641af15-88ad-4649-b659-b06ef516af8c)
 ![Image](https://github.com/user-attachments/assets/d7b8272c-6cb0-4a3e-bedf-7ac32e2db755)
