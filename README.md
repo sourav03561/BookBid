@@ -48,7 +48,7 @@
 **Manage Exchanges** – Track your exchange requests and communicate with other users.
 
 ## Project Structure
-BookBid/
+BookBid/<br>
 ├── templates/           # HTML templates<br>
 ├── static/              # Static files (CSS, JS, images)<br>
 ├── app.py               # Main application file<br>
@@ -59,6 +59,18 @@ BookBid/
 ├── requirements.txt     # Python dependencies<br>
 └── README.md            # Project documentation<br>
 
+##🤝 Contributing
+Contributions are welcome! If you'd like to contribute:<br>
+
+Fork the repository<br>
+
+Create a new branch: git checkout -b feature-name<br>
+
+Make your changes and commit them: git commit -m 'Add new feature'<br>
+
+Push to the branch: git push origin feature-name<br>
+
+Open a pull request<br>
 
 ![Image](https://github.com/user-attachments/assets/244cebe4-57eb-4fe7-9e4e-7c6f1b86ffcc)
 ![Image](https://github.com/user-attachments/assets/b641af15-88ad-4649-b659-b06ef516af8c)
