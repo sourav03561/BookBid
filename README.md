@@ -11,15 +11,16 @@
 - **Search Functionality** – Easily find books by title, author, or genre.
 - **Exchange Requests** – Initiate and manage book exchange requests with other users.
 - **Notification System** – Stay updated with real-time notifications about your exchange activities.
+- **Personalized Recommendations** – Designed a recommendation system using TF-IDF for personalized book suggestions.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: HTML, CSS, JavaScript
+- **Frontend**: HTML, CSS, JavaScript, Jinja
 - **Backend**: Python (Flask)
-- **Database**: SQLite
-- **Others**: Pandas, Scikit-learn (for book recommendations)
+- **Database**: Firebase Real Time Database
+- **Others**: Pandas, Scikit-learn (for book recommendations),TF-IDF
 
 ---
 
@@ -29,7 +30,6 @@
    ```bash
    git clone https://github.com/sourav03561/BookBid.git
    cd BookBid
-
 ![Image](https://github.com/user-attachments/assets/244cebe4-57eb-4fe7-9e4e-7c6f1b86ffcc)
 ![Image](https://github.com/user-attachments/assets/b641af15-88ad-4649-b659-b06ef516af8c)
 ![Image](https://github.com/user-attachments/assets/d7b8272c-6cb0-4a3e-bedf-7ac32e2db755)
