@@ -49,15 +49,15 @@
 
 ## Project Structure
 BookBid/
-├── templates/           # HTML templates
-├── static/              # Static files (CSS, JS, images)
-├── app.py               # Main application file
-├── books.owl            # Ontology file for book data
-├── random_books_df.csv  # Sample dataset of books
-├── tfidf_matrix.pkl     # Precomputed TF-IDF matrix
-├── tfidf_vectorizer.pkl # TF-IDF vectorizer model
-├── requirements.txt     # Python dependencies
-└── README.md            # Project documentation
+├── templates/           # HTML templates<br>
+├── static/              # Static files (CSS, JS, images)<br>
+├── app.py               # Main application file<br>
+├── books.owl            # Ontology file for book data<br>
+├── random_books_df.csv  # Sample dataset of books<br>
+├── tfidf_matrix.pkl     # Precomputed TF-IDF matrix<br>
+├── tfidf_vectorizer.pkl # TF-IDF vectorizer model<br>
+├── requirements.txt     # Python dependencies<br>
+└── README.md            # Project documentation<br>
 
 
 ![Image](https://github.com/user-attachments/assets/244cebe4-57eb-4fe7-9e4e-7c6f1b86ffcc)
