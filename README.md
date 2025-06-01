@@ -59,7 +59,7 @@ BookBid/<br>
 ├── requirements.txt     # Python dependencies<br>
 └── README.md            # Project documentation<br>
 
-##🤝 Contributing<
+## 🤝 Contributing
 **Contributions are welcome! If you'd like to contribute**:<br>
 
 **Fork the repository**<br>
